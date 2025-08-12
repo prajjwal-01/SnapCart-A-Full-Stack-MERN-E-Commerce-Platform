@@ -1,5 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+// FIX: Removed unused 'useLocation'
+import { Link, useNavigate } from 'react-router-dom';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 import { Store } from '../context/Store';
 import axios from 'axios';
@@ -26,7 +27,7 @@ const SigninScreen = () => {
       alert('Invalid email or password');
     }
   };
-
+  
   useEffect(() => {
     if (userInfo) {
       navigate('/');

@@ -1,34 +1,50 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useReducer } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { Row, Col, Image, ListGroup, Card, Button, Form } from 'react-bootstrap';
 import axios from 'axios';
 import { Store } from '../context/Store';
 
+// Reducer for managing fetch state
+const reducer = (state, action) => {
+  switch (action.type) {
+    case 'FETCH_REQUEST':
+      return { ...state, loading: true };
+    case 'FETCH_SUCCESS':
+      return { ...state, product: action.payload, loading: false };
+    case 'FETCH_FAIL':
+      return { ...state, loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
 const ProductScreen = () => {
   const navigate = useNavigate();
-  const { state, dispatch: ctxDispatch } = useContext(Store);
-  const { id: productId } = useParams();
+  const params = useParams();
+  const { id: productId } = params;
 
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  const [{ loading, error, product }, dispatch] = useReducer(reducer, {
+    product: {},
+    loading: true,
+    error: '',
+  });
 
-  const [product, setProduct] = useState({});
   const [qty, setQty] = useState(1);
+  // FIX: Removed unused 'state' variable
+  const { dispatch: ctxDispatch } = useContext(Store);
 
   useEffect(() => {
-    const fetchProduct = async () => {
+    const fetchData = async () => {
+      dispatch({ type: 'FETCH_REQUEST' });
       try {
-        setLoading(true);
-        const { data } = await axios.get(`/api/products/${productId}`);
-        setProduct(data);
-        setLoading(false);
+        const result = await axios.get(`/api/products/${productId}`);
+        dispatch({ type: 'FETCH_SUCCESS', payload: result.data });
       } catch (err) {
-        setError('Product Not Found');
-        setLoading(false);
+        dispatch({ type: 'FETCH_FAIL', payload: 'Product Not Found' });
       }
     };
-    fetchProduct();
+    fetchData();
   }, [productId]);
 
   const addToCartHandler = () => {
