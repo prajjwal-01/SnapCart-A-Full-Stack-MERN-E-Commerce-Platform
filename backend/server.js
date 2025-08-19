@@ -1,6 +1,7 @@
 import path from 'path';
 import express from 'express';
 import dotenv from 'dotenv';
+import { fileURLToPath } from 'url'; // 1. Import this new function
 import connectDB from './config/db.js';
 import productRoutes from './routes/productRoutes.js';
 import userRoutes from './routes/userRoutes.js';
@@ -15,10 +16,13 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const __dirname = path.resolve();
-// **THIS IS THE KEY FIX**
-// This creates a correct, absolute path to your images folder
-app.use('/images', express.static(path.join(__dirname, '/backend/images')));
+// --- THIS IS THE KEY FIX ---
+// This is the modern, standard way to get the directory name in ES Modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+// This now creates a correct, absolute path to the images folder
+app.use('/images', express.static(path.join(__dirname, 'images')));
+// --- END OF FIX ---
 
 app.get('/', (req, res) => {
   res.send('API is running...');
