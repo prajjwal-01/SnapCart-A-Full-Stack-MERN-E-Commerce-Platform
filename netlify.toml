@@ -9,7 +9,7 @@
   to = "https://snapcart-api.onrender.com/api/:splat" # <-- MAKE SURE THIS IS YOUR RENDER URL
   status = 200
 
-# This new rule forwards image requests to your backend
+# This rule forwards image requests to your backend
 [[redirects]]
   from = "/images/*"
   to = "https://snapcart-api.onrender.com/images/:splat" # <-- MAKE SURE THIS IS YOUR RENDER URL
