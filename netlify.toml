@@ -1,9 +1,9 @@
 [build]
   command = "npm run build"
-  publish = "frontend/build"
+  publish = "build"
   base = "frontend"
 
 [[redirects]]
   from = "/api/*"
-  to = "https://snapcart-api.onrender.com" # 
+  to = "https://snapcart-api.onrender.com/api/:splat" # Make sure this is your correct Render URL
   status = 200
