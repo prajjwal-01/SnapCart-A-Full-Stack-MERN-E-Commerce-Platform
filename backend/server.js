@@ -6,7 +6,7 @@ import productRoutes from './routes/productRoutes.js';
 import userRoutes from './routes/userRoutes.js';
 import orderRoutes from './routes/orderRoutes.js';
 
-// This is the key change
+// This line tells the server where to find the .env file
 dotenv.config({ path: './backend/.env' });
 
 connectDB();
@@ -17,8 +17,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 const __dirname = path.resolve();
-// Adjusted path for running from the root folder
-app.use('/images', express.static(path.join(__dirname, 'backend/images')));
+// This is the key change to make the image path absolute and reliable
+app.use('/images', express.static(path.join(__dirname, '/backend/images')));
 
 app.get('/', (req, res) => {
   res.send('API is running...');

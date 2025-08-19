@@ -3,14 +3,14 @@
   publish = "build"
   base = "frontend"
 
-# This rule forwards API requests
+# This rule forwards API requests to your backend
 [[redirects]]
   from = "/api/*"
-  to = "https://snapcart-api.onrender.com/api/:splat" # Make sure this is your correct Render URL
+  to = "https://snapcart-api.onrender.com/api/:splat" # <-- MAKE SURE THIS IS YOUR RENDER URL
   status = 200
 
-# ADD THIS NEW RULE to forward image requests
+# This new rule forwards image requests to your backend
 [[redirects]]
   from = "/images/*"
-  to = "https://snapcart-api.onrender.com/images/:splat" # Make sure this is your correct Render URL
+  to = "https://snapcart-api.onrender.com/images/:splat" # <-- MAKE SURE THIS IS YOUR RENDER URL
   status = 200
